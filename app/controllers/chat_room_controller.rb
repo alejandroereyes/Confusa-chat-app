@@ -5,7 +5,7 @@ class ChatRoomController < ApplicationController
   end
 
   def leaderboard
-    render json: ChatRoom.group('name').order('sum(message)').limit(10)
+    render json: ChatRoom.group('name').order('sum(name)').limit(10)
   end
 
   def time
