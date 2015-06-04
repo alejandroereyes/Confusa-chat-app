@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   get '/confusa', to: 'chatroom#index'
+
+  root to: 'chatroom#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
