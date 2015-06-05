@@ -32,7 +32,7 @@ class ChatRoomController < ApplicationController
     if params[:name] != '' && params[:name] != nil
       new_msg = ChatRoom.new
       new_msg.name = params[:name]
-      new_msg.message = params[:message]
+      new_msg.message = params[:message].gsub(/fuck/, '%$#!').gsub(/shit/, "&^@!").gsub(/ass/, '@@$')
       new_msg.room = params[:room] if params.has_key?(:room)
       new_msg.save
       render json: new_msg
