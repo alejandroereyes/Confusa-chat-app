@@ -56,8 +56,8 @@ class ChatRoomController < ApplicationController
       reply.message = "What's the deal with helicopters !?"
       # reply.room = params[:room]
       reply.save
-    when 'what time is it'
-      reply.name 'Stanley Kirk Burrel'
+    when 'what time is it, yo'
+      reply.name = 'Stanley Kirk Burrel'
       reply.message = "HAMMER  TIME"
       # reply.room = params[:room]
       reply.save
