@@ -5,7 +5,10 @@ class ChatRoomController < ApplicationController
   end
 
   def leaderboard
-    render json: ChatRoom.group(:name).order(message: :desc).limit(10).count(:message)
+    board = ChatRoom.all.group_by { |room| room.name }
+                          .sort_by { |name, message| message.count }
+                          .reverse.take(10).map { |rooms| rooms.first }
+    render json: board
   end
 
   def time
