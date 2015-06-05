@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   get 'confusa/leaderboard', to: 'chat_room#leaderboard'
-  get '/confusa/time', to:'chat_room#time'
+  get '/confusa/recent_users', to:'chat_room#recent_users'
   get '/confusa', to: 'chat_room#index'
 
   post '/confusa', to: 'chat_room#create'
