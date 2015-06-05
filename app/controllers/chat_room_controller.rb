@@ -1,5 +1,11 @@
 class ChatRoomController < ApplicationController
 
+  def new_index
+    time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
+    room = params[:room] != 'global' ? params[:room] : 'global'
+    render json: ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
+  end
+
   def index
     time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
     render json: ChatRoom.all.select { |message| message.created_at > (Time.now - time_start) }
@@ -32,13 +38,35 @@ class ChatRoomController < ApplicationController
     if params[:name] != '' && params[:name] != nil
       new_msg = ChatRoom.new
       new_msg.name = params[:name]
-      new_msg.message = params[:message].gsub(/fuck/, '%$#!').gsub(/shit/, "&^@!").gsub(/ass/, '@@$')
+      new_msg.message = Swearjar.default.censor(params[:message])#.gsub(/fuck/, '%$#!').gsub(/shit/, "&^@!").gsub(/ass/, '@@$')
       new_msg.room = params[:room] if params.has_key?(:room)
+      bot
       new_msg.save
       render json: new_msg
     else
       render json: { 'name'=> 'Hey...No Name!','message'=> 'Need to Enter a user name!' }, status: 431
     end
   end # create
+
+  def bot
+    reply = ChatRoom.new
+    case params[:message]
+    when 'amiright'
+      reply.name = 'Little Jerry Seinfeld'
+      reply.message = "What's the deal with helicopters !?"
+      # reply.room = params[:room]
+      reply.save
+    when 'what time is it'
+      reply.name 'Stanley Kirk Burrel'
+      reply.message = "HAMMER  TIME"
+      # reply.room = params[:room]
+      reply.save
+    when '?'
+      reply.name = 'Abraham Lincoln'
+      reply.message = '.....must..Eat...BRAIN'
+      # reply.room = params[:room]
+      reply.save
+    end
+  end # bot
 end # class
 
