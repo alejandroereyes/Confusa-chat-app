@@ -5,7 +5,7 @@ class ChatRoomController < ApplicationController
     room = params[:room] != 'global' ? params[:room] : 'global'
     room = (room == nil || room == false) ? 'global': room
     messages = ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
-    # messages.map!{ |message| message[:created_at] = message[:created_at].strftime("%-d/%-m %H:%M") }
+    # messages.map!{ |message| messages[:created_at] = messages[:created_at].strftime("%-d/%-m %H:%M") }
     render json: messages
   end
 
@@ -47,7 +47,7 @@ class ChatRoomController < ApplicationController
   end
 
   def all_rooms
-    render json: ChatRoom.group(:room)
+    render json: ChatRoom.group(:room, :id)
   end
 
   def create
