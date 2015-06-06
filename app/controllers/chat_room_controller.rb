@@ -21,9 +21,9 @@ class ChatRoomController < ApplicationController
                           .sort_by { |name, message| message.count }
                           .reverse.take(10).map { |rooms| rooms.first } #flick it ;)
 
-    stats = ChatRoom.all.group_by { |user| user.name }
-                        .sort_by { |key, value| value.count }
-    render json: boardexi
+    # stats = ChatRoom.all.group_by { |user| user.name }
+                        # .sort_by { |key, value| value.count }
+    render json: board
   end
 
   def recent_users
