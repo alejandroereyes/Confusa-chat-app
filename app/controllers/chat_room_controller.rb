@@ -1,14 +1,18 @@
 class ChatRoomController < ApplicationController
 
-  def new_index
-    time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
-    room = params[:room] != 'global' ? params[:room] : 'global'
-    render json: ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
-  end
-
   def index
     time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
-    render json: ChatRoom.all.select { |message| message.created_at > (Time.now - time_start) }
+    room = params[:room] != 'global' ? params[:room] : 'global'
+    messages = ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
+    # messages.map!{ |message| message[:created_at] = message[:created_at].strftime("%-d/%-m %H:%M") }
+    render json: messages
+  end
+
+  def old_index
+    time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
+    messages = ChatRoom.all.select { |message| message.created_at > (Time.now - time_start) }
+    messages.each_with_index{ |message, index| messages[index][:created_at] = messages[index][:created_at].strftime("%-d/%-m %H:%M") }
+    render json: messages
   end
 
   def leaderboard
