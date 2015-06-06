@@ -20,12 +20,15 @@ class ChatRoomController < ApplicationController
     board = ChatRoom.all.group_by { |room| room.name }
                           .sort_by { |name, message| message.count }
                           .reverse.take(10).map { |rooms| rooms.first } #flick it ;)
+
+    stats = ChatRoom.all.group_by { |user| user.name }
+                        .sort_by { |key, value| value.count }
     render json: board
   end
 
   def recent_users
     time_start = params.has_key?(:start_users) ? params[:start_users] : 14400 # 14400 sec = 4 hours
-    render json: ChatRoom.all.select { |user| user.created_at > (Time.now - time_start) }
+    render json: ChatRoom.group(:name).select { |user| user.created_at > (Time.now - time_start) }
   end
 
   def top_rooms
