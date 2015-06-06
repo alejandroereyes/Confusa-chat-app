@@ -42,6 +42,10 @@ class ChatRoomController < ApplicationController
     render json: ChatRoom.select('name, message, created_at').where(name: "#{params[:name]}")
   end
 
+  def all_rooms
+    render json: ChatRoom.group(:room)
+  end
+
   def create
     if params[:name] != '' && params[:name] != nil
       new_msg = ChatRoom.new
