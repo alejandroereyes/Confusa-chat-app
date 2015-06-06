@@ -28,9 +28,11 @@ class ChatRoomController < ApplicationController
 
   def recent_users
     time_start = params.has_key?(:start_users) ? params[:start_users] : 14400 # 14400 sec = 4 hours
-    render json: ChatRoom.group(:name, :id).group_by { |key, value| key.name }
-                        .map{ |arr| arr.first }
-                        .select { |user| user.created_at > (Time.now - time_start) }
+    users = ChatRoom.group(:name, :id).select { |user| user.created_at > (Time.now - time_start) }
+                    .group_by { |key, value| key.name }
+                    .map{ |arr| arr.first }
+
+    render json: users
   end
 
   def top_rooms
