@@ -45,8 +45,8 @@ class ChatRoomController < ApplicationController
       new_msg.name = params[:name]
       new_msg.message = Swearjar.default.censor(params[:message])
       new_msg.room = params[:room] if params.has_key?(:room)
-      bot
       new_msg.save
+      bot
       render json: new_msg
     else
       render json: { 'name'=> 'Hey...No Name!','message'=> 'Need to Enter a user name!' }, status: 431
