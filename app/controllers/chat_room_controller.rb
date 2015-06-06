@@ -3,6 +3,7 @@ class ChatRoomController < ApplicationController
   def index
     time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
     room = params[:room] != 'global' ? params[:room] : 'global'
+    room = (room == nil || room == false) ? 'global': room
     messages = ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
     # messages.map!{ |message| message[:created_at] = message[:created_at].strftime("%-d/%-m %H:%M") }
     render json: messages
@@ -42,7 +43,7 @@ class ChatRoomController < ApplicationController
     if params[:name] != '' && params[:name] != nil
       new_msg = ChatRoom.new
       new_msg.name = params[:name]
-      new_msg.message = Swearjar.default.censor(params[:message])#.gsub(/fuck/, '%$#!').gsub(/shit/, "&^@!").gsub(/ass/, '@@$')
+      new_msg.message = Swearjar.default.censor(params[:message])
       new_msg.room = params[:room] if params.has_key?(:room)
       bot
       new_msg.save
