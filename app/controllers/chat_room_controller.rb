@@ -47,7 +47,7 @@ class ChatRoomController < ApplicationController
   end
 
   def all_rooms
-    render json: ChatRoom.group(:room, :id)
+    render json: ChatRoom.group(:room, :id).group_by{ |row| row.room }
   end
 
   def create
