@@ -1,7 +1,7 @@
 class ChatRoomController < ApplicationController
 
   def index
-    time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
+    time_start = params.has_key?(:start_messages) ? params[:start_messages].to_i : 300
     room = params[:room] != 'global' ? params[:room] : 'global'
     room = (room == nil || room == false) ? 'global': room
     messages = ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
@@ -41,6 +41,7 @@ class ChatRoomController < ApplicationController
   end
 
   def room_history
+    puts "*******  #{params}  ********"
     if params[:start_time] != nil && params[:end_time] != nil && params.has_key?(:start_time) && params.has_key?(:end_time)
       begin
         if params[:start_time] == params[:end_time]
