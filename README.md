@@ -21,9 +21,10 @@
 
 # Notes
   There are currently a list of freatures that are not supported via the web page
-  * adjust message history load for current chat room `http://confusa.heroku.com/room=global&start_messages=900`
+  * adjust message history load for current chat room time in relation to current time in seconds`http://confusa.heroku.com/confusa?room=global&start_messages=100000`
+  * adjust active users shown by time `http://confusa.heroku.com/confusa/recent_users?start_time=900`
   * view a user's profile `http://confusa.heroku.com/confusa/profile?name=leo`
-  * view room history `http://confusa.heroku.com/room_history?room=global&start_time=6-6-15&end_time=6-7-15`
+  * view room history `http://confusa.heroku.com/confusa/room_history?room=global&start_time=6-6-15&end_time=6-7-15`
 
 ## Details
 
