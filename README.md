@@ -7,17 +7,17 @@
   Go to  `http://chaneyz.github.io/`
 
 ## Features
-    * username can be entered
-    * messages from last 5 minutes are displayed
-    * messages are displayed for one chatroom at a time
-    * can switch between chatrooms
-    * top 10 users with message rank displayed
-    * recent users from the last 4 hours displayed
-    * top 3 chatrooms displayed
-    * a list of all chatrooms
-    * swear words are filter and replced with "*"
-    * bot will monitor messages and respond to "amiright", "?", and "what time is it"
-    * emoticons supported
+  * username can be entered
+  * messages from last 5 minutes are displayed
+  * messages are displayed for one chatroom at a time
+  * can switch between chatrooms
+  * top 10 users with message rank displayed
+  * recent users from the last 4 hours displayed
+  * top 3 chatrooms displayed
+  * a list of all chatrooms
+  * swear words are filter and replced with "*"
+  * bot will monitor messages and respond to "amiright", "?", and "what time is it"
+  * emoticons supported
 
 # Notes
   There are currently a list of freatures that are not supported via the web page
