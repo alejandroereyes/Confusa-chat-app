@@ -7,7 +7,6 @@
   Go to  `http://chaneyz.github.io/`
 
 ## Features
-
     * username can be entered
     * messages from last 5 minutes are displayed
     * messages are displayed for one chatroom at a time
@@ -21,7 +20,6 @@
     * emoticons supported
 
 # Notes
-
   There are currently a list of freatures that are not supported via the web page
     * adjust message history load for current chat room `http://confusa.heroku.com/room=global&start_messages=600`
     * view a user's profile `http://confusa.heroku.com/confusa/profile?name=leo`
