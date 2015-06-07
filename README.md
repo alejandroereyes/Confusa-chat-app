@@ -8,7 +8,6 @@
 
 ## Features
 
-  ###Currently Supported
     * username can be entered
     * messages from last 5 minutes are displayed
     * messages are displayed for one chatroom at a time
