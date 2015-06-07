@@ -19,7 +19,7 @@ class ChatRoomController < ApplicationController
     time_start = params.has_key?(:start_users) ? params[:start_users] : 14400 # 14400 sec = 4 hours
     users = ChatRoom.group(:name, :id).select { |user| user.created_at > (Time.now - time_start) }
                     .group_by { |key, value| key.name }
-                    .map{ |arr| arr.first }
+                    .map{ |arr| arr.first }.take(10)
 
     render json: users
   end
@@ -43,11 +43,18 @@ class ChatRoomController < ApplicationController
   def room_history
     if params[:start_time] != nil && params[:end_time] != nil && params.has_key?(:start_time) && params.has_key?(:end_time)
       begin
-        history = ChatRoom.where(room: "#{params[:room]}").select do |msg|
-                                                        msg.created_at.strftime("%-d-%-m-%y") >= params[:start_time] &&
-                                                        msg.created_at.strftime("%-d-%-m-%y") <= params[:end_time]
-                                                      end
-        render json: history
+        if params[:start_time] == params[:end_time]
+          one_day =  ChatRoom.where(room: "#{params[:room]}").select do |messages|
+                                                                messages.created_at.strftime("%-d-%-m-%y") == params[:start_time]
+                                                              end
+          render json: one_day
+        else
+          history = ChatRoom.where(room: "#{params[:room]}").select do |msg|
+                                                          msg.created_at.strftime("%-d-%-m-%y") >= params[:start_time] &&
+                                                          msg.created_at.strftime("%-d-%-m-%y") <= params[:end_time]
+                                                        end
+          render json: history
+        end
       rescue ActiveRecord::RecordNotFound => error
         render json: { error: error.message }, status: 404
       end
