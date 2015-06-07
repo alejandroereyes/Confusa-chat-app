@@ -11,7 +11,7 @@ class ChatRoomController < ApplicationController
   def leaderboard
     board = ChatRoom.all.group_by { |room| room.name }
                           .sort_by { |name, message| message.count }
-                          .reverse.take(3).map { |rooms| {name: rooms.first, total_messages: rooms[1].count} } #flick it ;)
+                          .reverse.take(10).map { |rooms| {name: rooms.first, total_messages: rooms[1].count} } #flick it ;)
     render json: board
   end
 
