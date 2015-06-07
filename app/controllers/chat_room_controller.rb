@@ -44,14 +44,17 @@ class ChatRoomController < ApplicationController
     if params[:start_time] != nil && params[:end_time] != nil && params.has_key?(:start_time) && params.has_key?(:end_time)
       begin
         if params[:start_time] == params[:end_time]
-          one_day =  ChatRoom.where(room: "#{params[:room]}").select do |messages|
-                                                                messages.created_at.strftime("%-d-%-m-%y") == params[:start_time]
-                                                              end
+          one_day = []
+          ChatRoom.where(room: "#{params[:room]}").select do |message|
+                                                    if message.created_at.strftime("%-m-%-d-%y") == params[:start_time]
+                                                        one_day << message
+                                                    end
+                                                  end
           render json: one_day
         else
           history = ChatRoom.where(room: "#{params[:room]}").select do |msg|
-                                                          msg.created_at.strftime("%-d-%-m-%y") >= params[:start_time] &&
-                                                          msg.created_at.strftime("%-d-%-m-%y") <= params[:end_time]
+                                                          msg.created_at.strftime("%-m-%-d-%y") >= params[:start_time] &&
+                                                          msg.created_at.strftime("%-m-%-d-%y") <= params[:end_time]
                                                         end
           render json: history
         end
