@@ -5,24 +5,13 @@ class ChatRoomController < ApplicationController
     room = params[:room] != 'global' ? params[:room] : 'global'
     room = (room == nil || room == false) ? 'global': room
     messages = ChatRoom.where(room: room).select { |message| message.created_at > (Time.now - time_start) }
-    # messages.map!{ |message| messages[:created_at] = messages[:created_at].strftime("%-d/%-m %H:%M") }
-    render json: messages
-  end
-
-  def old_index
-    time_start = params.has_key?(:start_messages) ? params[:start_messages] : 300
-    messages = ChatRoom.all.select { |message| message.created_at > (Time.now - time_start) }
-    messages.each_with_index{ |message, index| messages[index][:created_at] = messages[index][:created_at].strftime("%-d/%-m %H:%M") }
     render json: messages
   end
 
   def leaderboard
     board = ChatRoom.all.group_by { |room| room.name }
                           .sort_by { |name, message| message.count }
-                          .reverse.take(10).map { |rooms| {name: rooms.first, total_messages: rooms[1].count} } #flick it ;)
-
-    # stats = ChatRoom.all.group_by { |user| user.name }
-                        # .sort_by { |key, value| value.count }
+                          .reverse.take(3).map { |rooms| {name: rooms.first, total_messages: rooms[1].count} } #flick it ;)
     render json: board
   end
 
@@ -51,18 +40,34 @@ class ChatRoomController < ApplicationController
                           .map { |element| element.first }
   end
 
-  def create
-    if params[:name] != '' && params[:name] != nil
-      new_msg = ChatRoom.new
-      new_msg.name = params[:name]
-      new_msg.message = Swearjar.default.censor(params[:message])
-      new_msg.room = params[:room] if params.has_key?(:room)
-      new_msg.save
-      bot
-      render json: new_msg
+  def room_history
+    if params[:start_time] != nil && params[:end_time] != nil && params.has_key?(:start_time) && params.has_key?(:end_time)
+      begin
+        history = ChatRoom.where(room: "#{params[:room]}").select do |msg|
+                                                        msg.created_at.strftime("%-d-%-m-%y") >= params[:start_time] &&
+                                                        msg.created_at.strftime("%-d-%-m-%y") <= params[:end_time]
+                                                      end
+        render json: history
+      rescue ActiveRecord::RecordNotFound => error
+        render json: { error: error.message }, status: 404
+      end
     else
-      render json: { 'name'=> 'Hey...No Name!','message'=> 'Need to Enter a user name!' }, status: 431
+      render json: { error: "Missing time parameters!" }, status: 422
     end
+  end
+
+  def create
+      if params[:name] != '' && params[:name] != nil
+        new_msg = ChatRoom.new
+        new_msg.name = params[:name]
+        new_msg.message = Swearjar.default.censor(params[:message])
+        new_msg.room = params[:room] if params.has_key?(:room)
+        new_msg.save
+        bot
+        render json: new_msg
+      else
+        render json: { 'name'=> 'Hey...No Name!','message'=> 'Need to Enter a user name!' }, status: 431
+      end
   end # create
 
   def bot

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'confusa/profile', to: 'chat_room#profile'
   get 'confusa/top_rooms', to: 'chat_room#top_rooms'
   get 'confusa/all_rooms', to: 'chat_room#all_rooms'
+  get 'confusa/room_history', to: 'chat_room#room_history'
   get '/confusa', to: 'chat_room#index'
 
   post '/confusa', to: 'chat_room#create'
