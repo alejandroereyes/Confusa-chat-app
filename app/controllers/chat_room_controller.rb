@@ -19,7 +19,7 @@ class ChatRoomController < ApplicationController
   def leaderboard
     board = ChatRoom.all.group_by { |room| room.name }
                           .sort_by { |name, message| message.count }
-                          .reverse.take(10).map { |rooms| rooms.first } #flick it ;)
+                          .reverse.take(10).map { |rooms| {name: rooms.first, total_messages: rooms[1].count} } #flick it ;)
 
     # stats = ChatRoom.all.group_by { |user| user.name }
                         # .sort_by { |key, value| value.count }
@@ -71,17 +71,17 @@ class ChatRoomController < ApplicationController
     when 'amiright'
       reply.name = 'Little Jerry Seinfeld'
       reply.message = "What's the deal with helicopters !?"
-      # reply.room = params[:room]
+      reply.room = params[:room]
       reply.save
     when 'what time is it'
       reply.name = 'Stanley Kirk Burrel'
       reply.message = "HAMMER    TIME"
-      # reply.room = params[:room]
+      reply.room = params[:room]
       reply.save
     when '?'
       reply.name = 'Abraham Lincoln'
       reply.message = '.....must..Eat...BRAIN'
-      # reply.room = params[:room]
+      reply.room = params[:room]
       reply.save
     end
   end # bot
