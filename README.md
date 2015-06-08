@@ -7,9 +7,8 @@
   Go to  `http://chaneyz.github.io/`
 
 ## Additional Information
-
-  Link to Hackpad `https://confusachatapp.hackpad.com/Confusa-tF1rQ96PePX`
-  Link to Trello `https://trello.com/b/7b12TJgO/chat-app`
+  * Link to Hackpad `https://confusachatapp.hackpad.com/Confusa-tF1rQ96PePX`
+  * Link to Trello `https://trello.com/b/7b12TJgO/chat-app`
 
 ## Features
   * username can be entered
